@@ -125,8 +125,9 @@ if($sem>$semammount){
               <!--содержимое вкладки-->
               <?php
 	            for ($x=1;$x <= $semammount ; $x++){
+                    if($x==1){$state='u-tab-active ';}else{$state='';} 
                ?>   
-              <div class="u-align-left u-container-style u-tab-pane u-white u-tab-pane-2" id="t<?php echo $x ?>" role="tabpanel" aria-labelledby="t<?php echo $x ?>">
+              <div class="<?php echo $state ?>u-align-left u-container-style u-tab-pane u-white u-tab-pane-2" id="t<?php echo $x ?>" role="tabpanel" aria-labelledby="t<?php echo $x ?>">
               <div class="u-container-layout u-valign-top u-container-layout-1">
                 <h4 class="u-text u-text-default u-text-1">Семестр <?php echo $x ?></h4>
                 <div class="u-table u-table-responsive u-table-1">
