@@ -2,17 +2,8 @@
 <?php
 session_start();
 require_once("connect.php");
-$semammount=0;
-$link = mysqli_connect($host, $user, $password, $db_name) or die(mysqli_error($link));
-mysqli_query($link, "SET NAMES 'utf8'");
- $query = "SELECT * FROM marks WHERE ID > 0";
-$result = mysqli_query($GLOBALS['link'], $query) or die(mysqli_error($link));
-for ($data = []; $row = mysqli_fetch_assoc($result); $data[] = $row); $result = ''; foreach ($data as $elem) { 
-$sem = $elem['semester'];
-if($sem>$semammount){
-    $semammount=$sem;
-}
-}
+require_once("phpController.php");
+$semammount=get_marks();
 ?>
 <!DOCTYPE html>
 <html style="font-size: 16px;">
@@ -132,44 +123,19 @@ if($sem>$semammount){
                 <h4 class="u-text u-text-default u-text-1">Семестр <?php echo $x ?></h4>
                 <div class="u-table u-table-responsive u-table-1">
                   <table class="u-table-entity">
-                    <colgroup>
-                      <col width="25%">
-                      <col width="25%">
-                      <col width="25%">
-                      <col width="25%">
+                     <colgroup>
+                      <col width="8%">
+                      <col width="38%">
+                      <col width="8%">
+                      <col width="23%">
+                      <col width="23%">
                     </colgroup>
                     <tbody class="u-table-alt-grey-5 u-table-body">
-                      <tr style="height: 51px;">
-                        <td class="u-table-cell">Column 1</td>
-                        <td class="u-table-cell">Column 2</td>
-                        <td class="u-table-cell">Column 3</td>
-                        <td class="u-table-cell">Column 4</td>
-                      </tr>
-                      <tr style="height: 51px;">
-                        <td class="u-table-cell">Row 1</td>
-                        <td class="u-table-cell">Description</td>
-                        <td class="u-table-cell">Description</td>
-                        <td class="u-table-cell">Description</td>
-                      </tr>
-                      <tr style="height: 51px;">
-                        <td class="u-table-cell">Row 2</td>
-                        <td class="u-table-cell">Description</td>
-                        <td class="u-table-cell">Description</td>
-                        <td class="u-table-cell">Description</td>
-                      </tr>
-                      <tr style="height: 51px;">
-                        <td class="u-table-cell">Row 3</td>
-                        <td class="u-table-cell">Description</td>
-                        <td class="u-table-cell">Description</td>
-                        <td class="u-table-cell">Description</td>
-                      </tr>
-                      <tr style="height: 52px;">
-                        <td class="u-table-cell">Row 4</td>
-                        <td class="u-table-cell">Description</td>
-                        <td class="u-table-cell">Description</td>
-                        <td class="u-table-cell">Description</td>
-                      </tr>
-                    </tbody>
+                        
+                     <?php
+                        echo get_table($x);
+                      ?>
+                     </tbody>
                   </table>
                 </div>
               </div>
@@ -178,67 +144,13 @@ if($sem>$semammount){
                 }
                 ?>
               <!--содержимое вкладки-->
-              <div class="u-align-left u-container-style u-tab-pane u-white u-tab-pane-2" id="tab-14b7" role="tabpanel" aria-labelledby="link-tab-14b7">
-                  <div class="u-container-layout u-container-layout-2">
-                      <h4 class="u-text u-text-default u-text-2">Курс 1</h4>
-                      <div class="u-expanded-width u-table u-table-responsive u-table-2">
-                          <table class="u-table-entity">
-                              <colgroup>
-                                  <col width="25%">
-                                  <col width="25%">
-                                  <col width="25%">
-                                  <col width="25%">
-                              </colgroup>
-                              <tbody class="u-table-alt-grey-5 u-table-body">
-                                  <tr style="height: 51px;">
-                                      <td class="u-table-cell">Column 1</td>
-                                      <td class="u-table-cell">Column 2</td>
-                                      <td class="u-table-cell">Column 3</td>
-                                      <td class="u-table-cell">Column 4</td>
-                                  </tr>
-                                  <tr style="height: 51px;">
-                                      <td class="u-table-cell">Row 1</td>
-                                      <td class="u-table-cell">Description</td>
-                                      <td class="u-table-cell">Description</td>
-                                      <td class="u-table-cell">Description</td>
-                                  </tr>
-                                  <tr style="height: 51px;">
-                                      <td class="u-table-cell">Row 2</td>
-                                      <td class="u-table-cell">Description</td>
-                                      <td class="u-table-cell">Description</td>
-                                      <td class="u-table-cell">Description</td>
-                                  </tr>
-                                  <tr style="height: 51px;">
-                                      <td class="u-table-cell">Row 3</td>
-                                      <td class="u-table-cell">Description</td>
-                                      <td class="u-table-cell">Description</td>
-                                      <td class="u-table-cell">Description</td>
-                                  </tr>
-                                  <tr style="height: 52px;">
-                                      <td class="u-table-cell">Row 4</td>
-                                      <td class="u-table-cell">Description</td>
-                                      <td class="u-table-cell">Description</td>
-                                      <td class="u-table-cell">Description</td>
-                                  </tr>
-                              </tbody>
-                          </table>
-                      </div>
-                  </div>
-              </div>
-              <div class="u-container-style u-tab-pane u-white u-tab-pane-3" id="tab-2917" role="tabpanel" aria-labelledby="link-tab-2917">
-                  <div class="u-container-layout u-container-layout-3">
-                      <h4 class="u-text u-text-default u-text-3">Text</h4>
-                  </div>
-              </div>
-              <div class="u-container-style u-tab-pane u-white u-tab-pane-4" id="link-tab-93fc" role="tabpanel" aria-labelledby="tab-93fc">
-                  <div class="u-container-layout u-container-layout-4"></div>
-              </div>
           </div>
         <!--таб контент-->
         </div>
           <!--Окно таблицы-->
       </div>
     </section>
+    <!--авторизация-->
     <section class="u-black u-clearfix u-container-style u-dialog-block u-opacity u-opacity-70 u-section-5" id="sec-784b">
       <div class="u-align-left u-container-style u-dialog u-shape-rectangle u-white u-dialog-1">
         <div class="u-container-layout u-valign-top u-container-layout-1">

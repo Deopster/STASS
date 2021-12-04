@@ -1,8 +1,8 @@
 <?php
-$host = 'localhost'; //èìÿ õîñòà, íà ëîêàëüíîì êîìïüþòåðå ýòîlocalhost
-$user = 'root'; //èìÿ ïîëüçîâàòåëÿ, ïî óìîë÷àíèþ ýòî root
-$password = ''; //ïàðîëü, ïî óìîë÷àíèþ ïóñòîé
-$db_name = 'zachetka'; //èìÿ áàçû äàííûõ
+$host = 'localhost'; //Ð¸Ð¼Ñ Ñ…Ð¾ÑÑ‚Ð°, Ð½Ð° Ð»Ð¾ÐºÐ°Ð»ÑŒÐ½Ð¾Ð¼ ÐºÐ¾Ð¼Ð¿ÑŒÑŽÑ‚ÐµÑ€Ðµ ÑÑ‚Ð¾localhost
+$user = 'root'; //Ð¸Ð¼Ñ Ð¿Ð¾Ð»ÑŒÐ·Ð¾Ð²Ð°Ñ‚ÐµÐ»Ñ, Ð¿Ð¾ ÑƒÐ¼Ð¾Ð»Ñ‡Ð°Ð½Ð¸ÑŽ ÑÑ‚Ð¾ root
+$password = ''; //Ð¿Ð°Ñ€Ð¾Ð»ÑŒ, Ð¿Ð¾ ÑƒÐ¼Ð¾Ð»Ñ‡Ð°Ð½Ð¸ÑŽ Ð¿ÑƒÑÑ‚Ð¾Ð¹
+$db_name = 'zachetka'; //Ð¸Ð¼Ñ Ð±Ð°Ð·Ñ‹ Ð´Ð°Ð½Ð½Ñ‹Ñ…
 
 $hostname = "localhost";
 $username = "root";
@@ -11,4 +11,6 @@ $dbname = "zachetka";
 $table = "auth";
 $field_login="login";
 $field_password="password";
+$link = mysqli_connect($host, $user, $password, $db_name) or die(mysqli_error($link));
+mysqli_query($link, "SET NAMES 'utf8'");
 ?>
