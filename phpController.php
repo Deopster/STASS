@@ -24,6 +24,8 @@ if(!empty($data)){
     $result .='<td class="u-table-cell">Дата сдачи</td>';
     $result .='<td class="u-table-cell">ФИО преподавателя</td>';
     $result .='</tr>';
+}else{
+    $result .='<h2 text-align="center" margin="0 auto">Оценки за данный семестр ещё не проставлены</h2>';
 }   
 foreach ($data as $elem) { 
     $result .= '<tr>'; 

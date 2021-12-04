@@ -82,6 +82,7 @@ $semammount=get_marks();
               </div>
               <div class="u-container-style u-layout-cell u-size-43 u-layout-cell-2">
                 <div class="u-container-layout u-container-layout-4">
+                <h1 class="u-custom-font u-font-roboto-slab u-text u-text-default u-text-2">Электрическая зачётка</h1>
                   <div class="u-container-style u-expanded-width u-gradient u-group u-radius-15 u-shape-round u-group-3">
                     <div class="u-container-layout u-container-layout-5">
                       <img class="u-image u-image-default u-image-2" src="images/7-78606_book-clipart-black-and-white-png-books-black.png" alt="" data-image-width="860" data-image-height="808">
