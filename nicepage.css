@@ -18991,18 +18991,28 @@ a.pswp__share--download:hover {
   }
 }
 .u-dialog {
-  display: flex;
-  position: relative;
+    display: flex;
+    position: relative;
+    width: 30%;
+    min-height: 350px;
+    min-width: 350px;
+    margin: 297px auto 60px;
 }
 .u-dialog-close-button {
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  color: inherit;
-  background: transparent;
-  padding: 0;
-  outline: none;
-  cursor: pointer;
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    color: inherit;
+    background: transparent;
+    padding: 0;
+    outline: none;
+    cursor: pointer;
+    width: 20px;
+    height: 20px;
+    left: auto;
+    top: 12px;
+    right: 18px;
+    position: absolute;
 }
 .u-dialog-block {
   position: fixed;
