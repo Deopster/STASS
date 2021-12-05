@@ -95,7 +95,7 @@
 
 @media (max-width: 1199px) {
   .u-section-1 .u-sheet-1 {
-    min-height: 399px;
+    min-height: 45vh;
   }
 
   .u-section-1 .u-layout-wrap-1 {
@@ -189,13 +189,21 @@
 } .u-section-2 {
   background-image: linear-gradient(white, #adcce9);
 }
-
-.u-section-2 .u-sheet-1 {
-  min-height: 632px;
+.u-section-1 .u-btn-34 {
+    box-shadow: 5px 5px 20px 0 rgb(0 0 0 / 40%);
+    border-style: none;
+    background-image: none;
+    font-size: 1.5rem;
+    margin: 32px auto 0;
+    padding: 6px 97px 8px 96px;
 }
-
+.u-section-2 .u-sheet-1 {
+  min-height: 35vh;
+}
+.u-section-3 .u-sheet-1 {
+   min-height: 20vh;
+}
 .u-section-2 .u-tabs-1 {
-  min-height: 406px;
   margin: 60px auto 60px 0;
 }
 

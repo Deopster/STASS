@@ -38,9 +38,9 @@ else{
 if($ch==false){
 mysqli_query($link, "INSERT INTO users SET Login='$login', Password='$password',  Group_n='$sele',Allowment='0'") or die(mysqli_error($link)); 
 echo "<script>alert(\"Регистрация прошла успешно.\",$password);</script>"; 
-echo "<script>window.location.href='./Главная.php'</script>";
 }
 }
+echo "<script>window.location.href='./index.php'</script>";
 }
 
 //удаление
@@ -49,7 +49,14 @@ if (isset($_GET['del']))
     $dd = $_GET['del'];
     mysqli_query($link, "DELETE FROM hospitals WHERE  ID='$dd'") or die(mysqli_error($link)); 
 }
-
+//Выйти
+if (isset($_GET['exe']))
+{
+   $_SESSION["ID"]=null;
+   $_SESSION["login"]=null;
+   $_SESSION["level"] = null; 
+   echo "<script>window.location.href='./index.php'</script>";
+}
 //Авторизация 
 
 if (isset($_POST['log'])){ 
@@ -79,6 +86,7 @@ if($ch==false ){
  $_SESSION["level"] = $level; 
  echo "<script>alert(\"авторизация выполнена успешно.\");</script>"; 
 }
+ echo "<script>window.location.href='./index.php'</script>";
 }
 ?>
 <!DOCTYPE html>
@@ -146,14 +154,26 @@ if($ch==false ){
                   <div class="u-container-style u-group u-image u-preserve-proportions u-radius-15 u-shape-round u-image-1" data-image-width="400" data-image-height="265">
                     <div class="u-container-layout u-container-layout-2"></div>
                   </div>
-                  <div class="u-container-style u-group u-palette-1-light-2 u-radius-15 u-shape-round u-group-2">
-                    <div class="u-container-layout u-container-layout-3">
-                      <a href="#sec-784b" class="u-border-none u-btn u-button-style u-none u-btn-1 u-dialog-link"><span class="u-icon u-icon-1"><svg class="u-svg-content" viewBox="0 0 512.00533 512" style="width: 1em; height: 1em;"><path d="m298.667969 277.335938c-35.285157 0-64-28.714844-64-64 0-35.285157 28.714843-64 64-64h42.664062v-85.332032c0-35.285156-28.714843-63.99999975-64-63.99999975h-229.332031c-7.019531 0-13.589844 3.45312475-17.578125 9.23437475-3.96875 5.78125-4.863281 13.144531-2.347656 19.691407l154.667969 405.335937c3.136718 8.277344 11.070312 13.738281 19.925781 13.738281h74.664062c35.285157 0 64-28.714844 64-64v-106.667968zm0 0" fill="#2196f3"></path><path d="m397.164062 318.382812c-7.957031-3.308593-13.164062-11.09375-13.164062-19.714843v-64h-85.332031c-11.777344 0-21.335938-9.554688-21.335938-21.332031 0-11.777344 9.558594-21.332032 21.335938-21.332032h85.332031v-64c0-8.621094 5.207031-16.40625 13.164062-19.714844 7.976563-3.304687 17.152344-1.46875 23.25 4.632813l85.335938 85.332031c8.339844 8.339844 8.339844 21.824219 0 30.164063l-85.335938 85.335937c-6.097656 6.097656-15.273437 7.933594-23.25 4.628906zm0 0" fill="#607d8b"></path><path d="m184.449219 44.84375-128.191407-42.730469c-28.929687-8.894531-56.257812 12.460938-56.257812 40.554688v384c0 18.242187 11.605469 34.519531 28.886719 40.492187l128.167969 42.730469c4.714843 1.449219 9.046874 2.113281 13.613281 2.113281 23.53125 0 42.664062-19.136718 42.664062-42.667968v-384c0-18.238282-11.605469-34.515626-28.882812-40.492188zm0 0" fill="#64b5f6"></path></svg><img></span>
-                      </a>
-                      <h4 class="u-custom-font u-font-courier-new u-text u-text-default u-text-grey-80 u-text-1"><span class="u-icon"></span>&nbsp;Кударенко Стас
-                      </h4>
-                    </div>
-                  </div>
+                  <?php
+                    if(empty($_SESSION['login'])){
+                    $level=0;
+                    ?>
+                     <a href="#sec-784b" class="u-border-none u-btn u-btn-round u-button-style u-hover-palette-1-light-1 u-palette-1-light-2 u-radius-11 u-btn-34 u-dialog-link">Войти</a>
+                    <?php
+                    }else{
+                    $level=$_SESSION['level'];
+                    ?>
+                      <div class="u-container-style u-group u-palette-1-light-2 u-radius-15 u-shape-round u-group-2">
+                        <div class="u-container-layout u-container-layout-3">
+                          <a href="index.php?exe=t" class="u-border-none u-btn u-button-style u-none u-btn-1 "><span class="u-icon u-icon-1"><svg class="u-svg-content" viewBox="0 0 512.00533 512" style="width: 1em; height: 1em;"><path d="m298.667969 277.335938c-35.285157 0-64-28.714844-64-64 0-35.285157 28.714843-64 64-64h42.664062v-85.332032c0-35.285156-28.714843-63.99999975-64-63.99999975h-229.332031c-7.019531 0-13.589844 3.45312475-17.578125 9.23437475-3.96875 5.78125-4.863281 13.144531-2.347656 19.691407l154.667969 405.335937c3.136718 8.277344 11.070312 13.738281 19.925781 13.738281h74.664062c35.285157 0 64-28.714844 64-64v-106.667968zm0 0" fill="#2196f3"></path><path d="m397.164062 318.382812c-7.957031-3.308593-13.164062-11.09375-13.164062-19.714843v-64h-85.332031c-11.777344 0-21.335938-9.554688-21.335938-21.332031 0-11.777344 9.558594-21.332032 21.335938-21.332032h85.332031v-64c0-8.621094 5.207031-16.40625 13.164062-19.714844 7.976563-3.304687 17.152344-1.46875 23.25 4.632813l85.335938 85.332031c8.339844 8.339844 8.339844 21.824219 0 30.164063l-85.335938 85.335937c-6.097656 6.097656-15.273437 7.933594-23.25 4.628906zm0 0" fill="#607d8b"></path><path d="m184.449219 44.84375-128.191407-42.730469c-28.929687-8.894531-56.257812 12.460938-56.257812 40.554688v384c0 18.242187 11.605469 34.519531 28.886719 40.492187l128.167969 42.730469c4.714843 1.449219 9.046874 2.113281 13.613281 2.113281 23.53125 0 42.664062-19.136718 42.664062-42.667968v-384c0-18.238282-11.605469-34.515626-28.882812-40.492188zm0 0" fill="#64b5f6"></path></svg><img></span>
+                          </a>
+                          <h5 class="u-custom-font u-font-courier-new u-text u-text-default u-text-grey-80 u-text-1"><?php echo $_SESSION['login']?><span class="u-icon"></span>&nbsp;
+                          </h5>
+                        </div>
+                      </div>
+                  <?php
+                    }
+                   ?>
                 </div>
               </div>
               <div class="u-container-style u-layout-cell u-size-43 u-layout-cell-2">
@@ -230,6 +250,9 @@ if($ch==false ){
     </section>
      <section class="u-align-center u-clearfix u-palette-1-light-2 u-section-3" id="sec-d192">
       <div class="u-clearfix u-sheet u-sheet-1">
+      <?php
+        if($level!=0){
+        ?>
         <div class="u-form u-form-1">
           <form action="#" method="POST" class="u-clearfix u-form-horizontal u-form-spacing-15 u-inner-form" style="padding: 15px" source="custom">
             <div class="u-form-group u-form-select u-form-group-1">
@@ -309,6 +332,9 @@ if($ch==false ){
             <input type="hidden" value="" name="recaptchaResponse">
           </form>
         </div>
+         <?php
+           }
+         ?>
       </div>
     </section>
     <!--авторизация-->
