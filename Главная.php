@@ -150,6 +150,60 @@ $semammount=get_marks();
         </div>
           <!--Окно таблицы-->
       </div>
+      <!--Добавить запись-->
+    </section>
+     <section class="u-align-center u-clearfix u-palette-1-light-2 u-section-3" id="sec-d192">
+      <div class="u-clearfix u-sheet u-sheet-1">
+        <div class="u-form u-form-1">
+          <form action="#" method="POST" class="u-clearfix u-form-horizontal u-form-spacing-15 u-inner-form" style="padding: 15px" source="custom">
+            <div class="u-form-group u-form-select u-form-group-1">
+              <label for="select-0352" class="u-form-control-hidden u-label"></label>
+              <div class="u-form-select-wrapper">
+                <select id="select-0352" name="select" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-white u-input-1">
+                  <option value="Item 1">Item 1</option>
+                  <option value="Item 2">Item 2</option>
+                  <option value="Item 3">Item 3</option>
+                </select>
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="12" version="1" class="u-caret"><path fill="currentColor" d="M4 8L0 4h8z"></path></svg>
+              </div>
+            </div>
+            <div class="u-form-group u-form-select u-form-group-2">
+              <label for="select-a9f1" class="u-form-control-hidden u-label"></label>
+              <div class="u-form-select-wrapper">
+                <select id="select-a9f1" name="select-1" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-white u-input-2">
+                  <option value="Item 1">Item 1</option>
+                  <option value="Item 2">Item 2</option>
+                  <option value="Item 3">Item 3</option>
+                </select>
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="12" version="1" class="u-caret"><path fill="currentColor" d="M4 8L0 4h8z"></path></svg>
+              </div>
+            </div>
+            <div class="u-form-group u-form-select u-form-group-3">
+              <label for="select-98bc" class="u-form-control-hidden u-label"></label>
+              <div class="u-form-select-wrapper">
+                <select id="select-98bc" name="select-2" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-white u-input-3">
+                  <option value="Item 1">Item 1</option>
+                  <option value="Item 2">Item 2</option>
+                  <option value="Item 3">Item 3</option>
+                </select>
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="12" version="1" class="u-caret"><path fill="currentColor" d="M4 8L0 4h8z"></path></svg>
+              </div>
+            </div>
+            <div class="u-form-date u-form-group u-form-group-4">
+              <label for="date-a7d1" class="u-form-control-hidden u-label"></label>
+              <input type="date" placeholder="2021-12-01" id="date-a7d1" name="date" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-white u-input-4" required="">
+            </div>
+            <div class="u-form-group u-form-submit u-form-group-5">
+              <a href="#" class="u-btn u-btn-submit u-button-style">Добавить<br>
+              </a>
+              <input type="submit" value="submit" class="u-form-control-hidden">
+            </div>
+            <div class="u-form-send-message u-form-send-success">Thank you! Your message has been sent.</div>
+            <div class="u-form-send-error u-form-send-message">Unable to send your message. Please fix errors then try again.</div>
+            <input type="hidden" value="" name="recaptchaResponse">
+          </form>
+        </div>
+      </div>
     </section>
     <!--авторизация-->
     <section class="u-black u-clearfix u-container-style u-dialog-block u-opacity u-opacity-70 u-section-5" id="sec-784b">
@@ -224,6 +278,7 @@ $semammount=get_marks();
     </section><style> .u-section-5 {
   min-height: 938px;
 }
+
     
   </body>
 </html>
