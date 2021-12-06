@@ -132,7 +132,7 @@ function send(val,p){
               <?php
               $query = "SELECT * FROM users WHERE ID >0";
 	            $result = mysqli_query($GLOBALS['link'], $query) or die(mysqli_error($link));
-	            for ($data = []; $row = mysqli_fetch_assoc($result); $data[] = $row); $result = ''; foreach ($data as $elem) { 
+	            for ($data = []; $row = mysqli_fetch_assoc($result); $data[] = $row); $result = ''; foreach ($data as $elem) {
 	            $result .= '<tr>'; 
                 $result .= '<td class="u-border-1 u-border-grey-30 u-table-cell" id=" trig">' . $elem['ID'] . '</td>';
                 $id=$elem['ID'];
@@ -149,6 +149,7 @@ function send(val,p){
               $query = "SELECT * FROM by_subjects WHERE ID >0";
 	            $result = mysqli_query($GLOBALS['link'], $query) or die(mysqli_error($link));
 	            for ($data = []; $row = mysqli_fetch_assoc($result); $data[] = $row); $result = ''; foreach ($data as $elem) { 
+                //var_dump($data);
 	            $result .= '<tr>'; 
                 $result .= '<td class="u-border-1 u-border-grey-30 u-table-cell" id=" trig">' . $elem['Teacher'] . '</td>';
 	            $result .= '<td class="u-border-1 u-border-grey-30 u-table-cell" id="'.$id.' Name"">' . $elem['Subject'] . '</td>'; 

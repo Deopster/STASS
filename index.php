@@ -4,7 +4,6 @@ session_start();
 require_once("connect.php");
 require_once("phpController.php");
 $semammount=get_marks();
-
 //регистрация
 if (isset($_POST['Reg'])){ 
 $ch=false;
@@ -42,7 +41,6 @@ echo "<script>alert(\"Регистрация прошла успешно.\",$pas
 }
 echo "<script>window.location.href='./index.php'</script>";
 }
-
 //удаление
 if (isset($_GET['del']))
 {
@@ -92,6 +90,14 @@ if($ch==false ){
 <!DOCTYPE html>
 <html style="font-size: 16px;">
   <head>
+ <?php
+  if (isset($_GET['select_fir']))
+{
+    $fir = $_GET['select_fir'];
+
+}
+?>
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="utf-8">
     <meta name="keywords" content="">
@@ -162,6 +168,8 @@ if($ch==false ){
                     <?php
                     }else{
                     $level=$_SESSION['level'];
+                    $login=$_SESSION['login'];
+                    $User_ID=$_SESSION['ID'];
                     ?>
                       <div class="u-container-style u-group u-palette-1-light-2 u-radius-15 u-shape-round u-group-2">
                         <div class="u-container-layout u-container-layout-3">
@@ -254,21 +262,39 @@ if($ch==false ){
         if($level!=0){
         ?>
         <div class="u-form u-form-1">
-          <form action="#" method="POST" class="u-clearfix u-form-horizontal u-form-spacing-15 u-inner-form" style="padding: 15px" source="custom">
+          <form action="" method="get" class="u-clearfix u-form-horizontal u-form-spacing-15 u-inner-form" style="padding: 15px" source="custom">
             <div class="u-form-group u-form-select u-form-group-1">
                       <label for="select-0352" class="u-form-control-hidden u-label"></label>
                       <div class="u-form-select-wrapper">
-                        <select id="select-0352" name="select" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-white u-input-1">
+                        <select onchange="this.form.submit()" id="select_fir" name="select_fir" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-white u-input-1">
                           <?php
-                            $query = "SELECT * FROM groups WHERE ID>0";
-                            $result = mysqli_query($GLOBALS['link'], $query) or die(mysqli_error($link));
-                            for ($data = []; $row = mysqli_fetch_assoc($result); $data[] = $row); $result = ''; 
-                            $num=1;
-                            foreach ($data as $elem) { 
-                                $result .= '<option value="Item '. $elem['Group_n'] .'">'. $elem['Group_n'] .'</option>'; 
-                                $num+=1;
-                            } 
-                            echo $result;       
+                            $res="";
+
+
+                            $quer = "SELECT ID FROM by_subjects WHERE Teacher=(SELECT ID FROM users WHERE login='$login')";
+                            $result = mysqli_query($GLOBALS['link'], $quer) or die(mysqli_error($link));
+                            for ($da = []; $row = mysqli_fetch_assoc($result); $da[] = $row); $result = ''; 
+                            foreach ($da as $el) { 
+                                    $ap=$el['ID'];
+                                    $query = "SELECT Group_n FROM Grops_teachers WHERE purpose ='$ap'";
+                                    $result = mysqli_query($GLOBALS['link'], $query) or die(mysqli_error($link));
+                                    for ($data = []; $row = mysqli_fetch_assoc($result); $data[] = $row); $result = ''; 
+                                    foreach ($data as $elem) { 
+                                        $nu=$elem['Group_n'];
+                                        $query = "SELECT * FROM groups WHERE ID='$nu'";
+                                        $result = mysqli_query($GLOBALS['link'], $query) or die(mysqli_error($link));
+                                        for ($dat = []; $row = mysqli_fetch_assoc($result); $dat[] = $row); $result = ''; 
+                                            foreach ($dat as $ele) {  
+                                                if($ele['Group_n']!=$prev){
+                                                    $res .= '<option value="'. $ele['ID'] .'">'. $ele['Group_n'] .'</option>'; 
+                                                }
+                                            $prev=$ele['Group_n'];
+                                            } 
+                                    } 
+                                } 
+                    
+
+                            echo $res;       
                           ?>
                         </select>
                         <svg xmlns="http://www.w3.org/2000/svg" width="14" height="12" version="1" class="u-caret"><path fill="currentColor" d="M4 8L0 4h8z"></path></svg>
@@ -279,15 +305,31 @@ if($ch==false ){
               <div class="u-form-select-wrapper">
                 <select id="select-0352" name="select" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-white u-input-1">
                   <?php
-                    $query = "SELECT * FROM users WHERE allowment =0";
-                    $result = mysqli_query($GLOBALS['link'], $query) or die(mysqli_error($link));
-                    for ($data = []; $row = mysqli_fetch_assoc($result); $data[] = $row); $result = ''; 
-                    $num=1;
-                    foreach ($data as $elem) { 
-                        $result .= '<option value="Item '.$num.'">'. $elem['Login'] .'</option>'; 
-                        $num+=1;
-                    } 
-                    echo $result;       
+                    $fir=(int)$fir;
+                    $quer = "SELECT * FROM grops_teachers WHERE Group_n='$fir'";
+                            $result = mysqli_query($GLOBALS['link'], $quer) or die(mysqli_error($link));
+                            for ($da = []; $row = mysqli_fetch_assoc($result); $da[] = $row); $result = ''; 
+                            foreach ($da as $el) {
+                                    $ap=$el['purpose'];
+                                    
+                                    $query = "SELECT * FROM by_subjects WHERE ID ='$ap'";
+                                    $result = mysqli_query($GLOBALS['link'], $query) or die(mysqli_error($link));
+                                    for ($data = []; $row = mysqli_fetch_assoc($result); $data[] = $row); $result = ''; 
+                                    foreach ($data as $elem) { 
+                                        $nu=$elem['Teacher'];
+                                        $sub=$elem['Subject'];
+                                        if ($nu==$User_ID){
+                                            $query = "SELECT * FROM subject_list WHERE ID='$sub'";
+                                            $result = mysqli_query($GLOBALS['link'], $query) or die(mysqli_error($link));
+                                            for ($dat = []; $row = mysqli_fetch_assoc($result); $dat[] = $row); $result = ''; 
+                                                foreach ($dat as $ele) {
+                                                        echo $ele['subject'];
+                                                        $res2 .= '<option value="'. $ele['subject'] .'">'. $ele['subject'] .'</option>'; 
+                                                } 
+                                        }
+                                    } 
+                                } 
+                    echo $res2;       
                   ?>
                 </select>
                 <svg xmlns="http://www.w3.org/2000/svg" width="14" height="12" version="1" class="u-caret"><path fill="currentColor" d="M4 8L0 4h8z"></path></svg>
@@ -297,9 +339,16 @@ if($ch==false ){
               <label for="select-a9f1" class="u-form-control-hidden u-label"></label>
               <div class="u-form-select-wrapper">
                 <select id="select-a9f1" name="select-1" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-white u-input-2">
-                  <option value="Item 1">Item 1</option>
-                  <option value="Item 2">Item 2</option>
-                  <option value="Item 3">Item 3</option>
+                  <?php
+                    $fir=(int)$fir;
+                      $query = "SELECT * FROM users WHERE Group_n=(SELECT Group_n FROM groups WHERE ID='$fir')";
+                      $result = mysqli_query($GLOBALS['link'], $query) or die(mysqli_error($link));
+                      for ($dat = []; $row = mysqli_fetch_assoc($result); $dat[] = $row); $result = ''; 
+                      foreach ($dat as $ele) {
+                      $res3 .= '<option value="'. $ele['Login'] .'">'. $ele['Login'] .'</option>';                          
+                       }       
+                      echo $res3;       
+                  ?>
                 </select>
                 <svg xmlns="http://www.w3.org/2000/svg" width="14" height="12" version="1" class="u-caret"><path fill="currentColor" d="M4 8L0 4h8z"></path></svg>
               </div>
@@ -315,6 +364,13 @@ if($ch==false ){
                   <option value="Item 5">Неявка</option>
                   <option value="Item 6">Неуд</option>
                 </select>
+                 <script>
+                        function onload(){
+                        var element = document.getElementById("select_fir");
+                        element.value = '<?php echo $fir?>';
+                        }
+                        onload()
+                 </script>
                 <svg xmlns="http://www.w3.org/2000/svg" width="14" height="12" version="1" class="u-caret"><path fill="currentColor" d="M4 8L0 4h8z"></path></svg>
               </div>
             </div>
@@ -435,6 +491,6 @@ if($ch==false ){
   min-height: 938px;
 }
 
-    
+
   </body>
 </html>
