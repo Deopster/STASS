@@ -94,7 +94,20 @@ if($ch==false ){
   if (isset($_GET['select_fir']))
 {
     $fir = $_GET['select_fir'];
+}
+  if (isset($_REQUEST['addcheck']))
+{
+    $try = $_REQUEST['addcheck'];
+    if($try=="add"){
+        if(!empty($_SESSION['login'])){
+            $subj = $_REQUEST['subject'];
+            $use = $_REQUEST['Name'];
+            $mark = $_REQUEST['Mark'];
+            $date = $_REQUEST['date'];
+            $login=$_SESSION['login'];
 
+        }
+    }
 }
 ?>
 
@@ -121,6 +134,12 @@ if($ch==false ){
     <meta name="theme-color" content="#478ac9">
     <meta property="og:title" content="Главная">
     <meta property="og:type" content="website">
+    <script>
+        function add(){
+        var element = document.getElementById("hh");
+        element.value = 'add';
+        }
+    </script>
   </head>
   <body class="u-body u-overlap"><header class="u-clearfix u-header u-header" id="sec-7ec3"><div class="u-clearfix u-sheet u-sheet-1">
         <nav class="u-menu u-menu-dropdown u-offcanvas u-menu-1">
@@ -168,7 +187,6 @@ if($ch==false ){
                     <?php
                     }else{
                     $level=$_SESSION['level'];
-                    $login=$_SESSION['login'];
                     $User_ID=$_SESSION['ID'];
                     ?>
                       <div class="u-container-style u-group u-palette-1-light-2 u-radius-15 u-shape-round u-group-2">
@@ -262,7 +280,7 @@ if($ch==false ){
         if($level!=0){
         ?>
         <div class="u-form u-form-1">
-          <form action="" method="get" class="u-clearfix u-form-horizontal u-form-spacing-15 u-inner-form" style="padding: 15px" source="custom">
+          <form action="" method="GET" class="u-clearfix u-form-horizontal u-form-spacing-15 u-inner-form" style="padding: 15px" source="custom">
             <div class="u-form-group u-form-select u-form-group-1">
                       <label for="select-0352" class="u-form-control-hidden u-label"></label>
                       <div class="u-form-select-wrapper">
@@ -303,7 +321,7 @@ if($ch==false ){
             <div class="u-form-group u-form-select u-form-group-1">
               <label for="select-0352" class="u-form-control-hidden u-label"></label>
               <div class="u-form-select-wrapper">
-                <select id="select-0352" name="select" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-white u-input-1">
+                <select id="select-0352" name="subject" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-white u-input-1">
                   <?php
                     $fir=(int)$fir;
                     $quer = "SELECT * FROM grops_teachers WHERE Group_n='$fir'";
@@ -323,8 +341,7 @@ if($ch==false ){
                                             $result = mysqli_query($GLOBALS['link'], $query) or die(mysqli_error($link));
                                             for ($dat = []; $row = mysqli_fetch_assoc($result); $dat[] = $row); $result = ''; 
                                                 foreach ($dat as $ele) {
-                                                        echo $ele['subject'];
-                                                        $res2 .= '<option value="'. $ele['subject'] .'">'. $ele['subject'] .'</option>'; 
+                                                        $res2 .= '<option value="'. $ele['subject'] .'|'. $ele['semester'] .'">'. $ele['subject'] .'</option>'; 
                                                 } 
                                         }
                                     } 
@@ -338,7 +355,7 @@ if($ch==false ){
             <div class="u-form-group u-form-select u-form-group-2">
               <label for="select-a9f1" class="u-form-control-hidden u-label"></label>
               <div class="u-form-select-wrapper">
-                <select id="select-a9f1" name="select-1" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-white u-input-2">
+                <select id="select-a9f1" name="Name" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-white u-input-2">
                   <?php
                     $fir=(int)$fir;
                       $query = "SELECT * FROM users WHERE Group_n=(SELECT Group_n FROM groups WHERE ID='$fir')";
@@ -356,21 +373,14 @@ if($ch==false ){
             <div class="u-form-group u-form-select u-form-group-3">
               <label for="select-98bc" class="u-form-control-hidden u-label"></label>
               <div class="u-form-select-wrapper">
-                <select id="select-98bc" name="select-2" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-white u-input-3">
-                  <option value="Item 1">5</option>
-                  <option value="Item 2">4</option>
-                  <option value="Item 3">3</option>
-                  <option value="Item 4">Зачёт</option>
-                  <option value="Item 5">Неявка</option>
-                  <option value="Item 6">Неуд</option>
+                <select id="select-98bc" name="Mark" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-white u-input-3">
+                  <option value="5">5</option>
+                  <option value="4">4</option>
+                  <option value="3">3</option>
+                  <option value="Зачёт">Зачёт</option>
+                  <option value="Неявка">Неявка</option>
+                  <option value="Неуд">Неуд</option>
                 </select>
-                 <script>
-                        function onload(){
-                        var element = document.getElementById("select_fir");
-                        element.value = '<?php echo $fir?>';
-                        }
-                        onload()
-                 </script>
                 <svg xmlns="http://www.w3.org/2000/svg" width="14" height="12" version="1" class="u-caret"><path fill="currentColor" d="M4 8L0 4h8z"></path></svg>
               </div>
             </div>
@@ -381,11 +391,11 @@ if($ch==false ){
             <div class="u-form-group u-form-submit u-form-group-5">
               <a href="#" class="u-btn u-btn-submit u-button-style">Добавить<br>
               </a>
-              <input type="submit" value="submit" class="u-form-control-hidden">
+              <input type="submit" onclick="add(); this.form.submit();" value="submit"name="addNote" class="u-form-control-hidden">
             </div>
-            <div class="u-form-send-message u-form-send-success">Thank you! Your message has been sent.</div>
-            <div class="u-form-send-error u-form-send-message">Unable to send your message. Please fix errors then try again.</div>
-            <input type="hidden" value="" name="recaptchaResponse">
+            <div class="u-form-send-message u-form-send-success">Ошибка.</div>
+            <div class="u-form-send-error u-form-send-message">Добавлено.</div>
+            <input type="hidden" value="" name="addcheck" id="hh" >
           </form>
         </div>
          <?php
@@ -393,6 +403,15 @@ if($ch==false ){
          ?>
       </div>
     </section>
+     <script>
+        function onload(){
+        var element = document.getElementById("select_fir");
+        element.value = '<?php echo $fir?>';
+        var element = document.getElementById("hh");
+        element.value = 'nothing';
+        }
+        onload()                
+    </script>
     <!--авторизация-->
     <section class="u-black u-clearfix u-container-style u-dialog-block u-opacity u-opacity-70 u-section-5" id="sec-784b">
       <div class="u-align-left u-container-style u-dialog u-shape-rectangle u-white u-dialog-1">
