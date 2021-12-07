@@ -3,7 +3,6 @@
 session_start();
 require_once("connect.php");
 require_once("phpController.php");
-$semammount=get_marks();
 //регистрация
 if (isset($_POST['Reg'])){ 
 $ch=false;
@@ -100,12 +99,15 @@ if($ch==false ){
     $try = $_REQUEST['addcheck'];
     if($try=="add"){
         if(!empty($_SESSION['login'])){
+            $login=$_SESSION['login'];
             $subj = $_REQUEST['subject'];
+            $pieces = explode("|", $subj);
+            $subj=$pieces[0];
+            $sem=$pieces[1];
             $use = $_REQUEST['Name'];
             $mark = $_REQUEST['Mark'];
             $date = $_REQUEST['date'];
-            $login=$_SESSION['login'];
-
+            mysqli_query($link, "INSERT INTO marks SET Student='$use', Subject='$subj',  mark='$mark',date_p='$date',  teacher='$login',semester='$sem'") or die(mysqli_error($link));    
         }
     }
 }
@@ -188,6 +190,7 @@ if($ch==false ){
                     }else{
                     $level=$_SESSION['level'];
                     $User_ID=$_SESSION['ID'];
+                    $login=$_SESSION['login'];
                     ?>
                       <div class="u-container-style u-group u-palette-1-light-2 u-radius-15 u-shape-round u-group-2">
                         <div class="u-container-layout u-container-layout-3">
@@ -218,12 +221,21 @@ if($ch==false ){
         </div>
       </div>
     </section>
+    
     <section class="u-align-center u-clearfix u-gradient u-section-2" id="sec-1a6d">
       <div class="u-clearfix u-sheet u-sheet-1">
+      <?php
+    if(!empty($_SESSION['login'])){
+    $semammount=get_marks();
+    ?>
          <!--Окно таблицы-->
         <div class="u-expanded-width u-tab-links-align-left u-tabs u-tabs-1">
           <ul class="u-border-2 u-border-palette-1-base u-spacing-10 u-tab-list u-unstyled" role="tablist">
             <?php
+            if(!empty($_SESSION['login'])){
+            if($semammount==0){
+                $semammount=1;
+            }
 	        for ($x=1;$x <= $semammount ; $x++){
                 if($x==1){$state='true';$s='active';}else{$state='false';$s='';}
             ?>
@@ -265,6 +277,8 @@ if($ch==false ){
             </div>
               <?php
                 }
+                }
+    }
                 ?>
               <!--содержимое вкладки-->
           </div>
