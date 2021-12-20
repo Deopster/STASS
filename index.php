@@ -60,15 +60,15 @@ if (isset($_POST['log'])){
 $ch=false;
 $login = $_POST['username'];
 $password = $_POST['password'];
-$query = "SELECT Password,Allowment,ID FROM users WHERE Login='$login'";
+$query = "SELECT Password,Allowment,`User ID` FROM users WHERE Login='$login'";
 $result = mysqli_query ($link , $query);
 for ($data = []; $row = mysqli_fetch_assoc($result); $data[] = $row); $result = ''; foreach ($data as $elem) { 
  $try =  $elem['Password'] ; 
  $level = $elem['Allowment'] ; 
- $USer_ID= $elem['ID'] ; 
+ $USer_ID= $elem['User ID'] ; 
 } 
 if(empty($try)){
- echo "<script>alert(\"Не найдено пользователя с заданным логином.\");</script>"; 
+echo "<script>alert(\"Не найдено пользователя с заданным логином.\");</script>"; 
  $ch=true;
 }
 if ($ch==false)
@@ -83,7 +83,7 @@ if($ch==false ){
  $_SESSION["level"] = $level; 
  echo "<script>alert(\"авторизация выполнена успешно.\");</script>"; 
 }
- echo "<script>window.location.href='./index.php'</script>";
+echo "<script>window.location.href='./index.php'</script>";
 }
 ?>
 <!DOCTYPE html>
@@ -98,16 +98,43 @@ if($ch==false ){
 {
     $try = $_REQUEST['addcheck'];
     if($try=="add"){
-        if(!empty($_SESSION['login'])){
-            $login=$_SESSION['login'];
+        if(!empty($_SESSION['login'])){      
             $subj = $_REQUEST['subject'];
             $pieces = explode("|", $subj);
+
+            $login=$_SESSION['ID'];
             $subj=$pieces[0];
+            $fir = $_REQUEST['select_fir'];
+
+            $query = "SELECT `Teacher_groups ID` FROM `grops_teachers` WHERE `purpose` = (SELECT `link ID` FROM `by_subjects` WHERE `Teacher` ='$login' AND `Subject` ='$subj') AND `Group_n` = '$fir'";
+            $result = mysqli_query($GLOBALS['link'], $query) or die(mysqli_error($link));
+            for ($data = []; $row = mysqli_fetch_assoc($result); $data[] = $row); $result = ''; 
+            foreach ($data as $elem) { 
+            $n=$elem['Teacher_groups ID'];
+            }                       
+
+
             $sem=$pieces[1];
             $use = $_REQUEST['Name'];
             $mark = $_REQUEST['Mark'];
             $date = $_REQUEST['date'];
-            mysqli_query($link, "INSERT INTO marks SET Student='$use', Subject='$subj',  mark='$mark',date_p='$date',  teacher='$login',semester='$sem'") or die(mysqli_error($link));    
+            $query = "SELECT `User ID` FROM users WHERE Login='$use'";
+            $result = mysqli_query ($link , $query);
+            for ($data = []; $row = mysqli_fetch_assoc($result); $data[] = $row); $result = ''; foreach ($data as $elem) { 
+             $t =  $elem['User ID'] ; 
+            } 
+
+            $query = "SELECT `marks ID` FROM `marks` WHERE `Student` ='$t' AND `grops_teachers_ID` ='$n'";
+            $result = mysqli_query($GLOBALS['link'], $query) or die(mysqli_error($link));
+            for ($data = []; $row = mysqli_fetch_assoc($result); $data[] = $row); $result = ''; 
+            if(empty($data)) {
+                 mysqli_query($link, "INSERT INTO marks SET Student='$t',  mark='$mark',date_p='$date',  grops_teachers_ID='$n'") or die(mysqli_error($link));    
+            } else {
+                foreach ($data as $elem) { 
+                 $v =  $elem['marks ID']; 
+                }
+                mysqli_query($link, "UPDATE `marks` SET  `mark` ='$mark', `date_p` ='$date' WHERE `marks ID` ='$v'") or die(mysqli_error($link));
+            } 
         }
     }
 }
@@ -156,7 +183,10 @@ if($ch==false ){
           <div class="u-custom-menu u-nav-container">
             <ul class="u-nav u-unstyled u-nav-1"><li class="u-nav-item"><a class="u-button-style u-nav-link u-text-active-palette-1-base u-text-hover-palette-2-base" href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" style="padding: 10px 20px;">Главная</a>
 </li><li class="u-nav-item"><a class="u-button-style u-nav-link u-text-active-palette-1-base u-text-hover-palette-2-base u-dialog-link" href="#sec-784b" style="padding: 10px 20px;">Авторизация</a>
-</li></ul>
+</li>
+<li class="u-nav-item"><a class="u-button-style u-nav-link u-text-active-palette-1-base u-text-hover-palette-2-base u-dialog-link" href="http://localhost/STASS/admin.php" style="padding: 10px 20px;">Админ панель</a>
+</li>
+</ul>
           </div>
           <div class="u-custom-menu u-nav-container-collapse">
             <div class="u-black u-container-style u-inner-container-layout u-opacity u-opacity-95 u-sidenav">
@@ -225,7 +255,7 @@ if($ch==false ){
     <section class="u-align-center u-clearfix u-gradient u-section-2" id="sec-1a6d">
       <div class="u-clearfix u-sheet u-sheet-1">
       <?php
-    if(!empty($_SESSION['login'])){
+    if(!empty($_SESSION['login']) and $level!=1){
     $semammount=get_marks();
     ?>
          <!--Окно таблицы-->
@@ -303,22 +333,22 @@ if($ch==false ){
                             $res="";
 
 
-                            $quer = "SELECT ID FROM by_subjects WHERE Teacher=(SELECT ID FROM users WHERE login='$login')";
+                            $quer = "SELECT `link ID` FROM by_subjects WHERE Teacher=(SELECT `User ID` FROM users WHERE login='$login')";
                             $result = mysqli_query($GLOBALS['link'], $quer) or die(mysqli_error($link));
                             for ($da = []; $row = mysqli_fetch_assoc($result); $da[] = $row); $result = ''; 
                             foreach ($da as $el) { 
-                                    $ap=$el['ID'];
+                                    $ap=$el['link ID'];
                                     $query = "SELECT Group_n FROM Grops_teachers WHERE purpose ='$ap'";
                                     $result = mysqli_query($GLOBALS['link'], $query) or die(mysqli_error($link));
                                     for ($data = []; $row = mysqli_fetch_assoc($result); $data[] = $row); $result = ''; 
                                     foreach ($data as $elem) { 
                                         $nu=$elem['Group_n'];
-                                        $query = "SELECT * FROM groups WHERE ID='$nu'";
+                                        $query = "SELECT * FROM `groups` WHERE `Groups ID` ='$nu'";
                                         $result = mysqli_query($GLOBALS['link'], $query) or die(mysqli_error($link));
                                         for ($dat = []; $row = mysqli_fetch_assoc($result); $dat[] = $row); $result = ''; 
                                             foreach ($dat as $ele) {  
                                                 if($ele['Group_n']!=$prev){
-                                                    $res .= '<option value="'. $ele['ID'] .'">'. $ele['Group_n'] .'</option>'; 
+                                                    $res .= '<option value="'. $ele['Groups ID'] .'">'. $ele['Group_n'] .'</option>'; 
                                                 }
                                             $prev=$ele['Group_n'];
                                             } 
@@ -344,18 +374,18 @@ if($ch==false ){
                             foreach ($da as $el) {
                                     $ap=$el['purpose'];
                                     
-                                    $query = "SELECT * FROM by_subjects WHERE ID ='$ap'";
+                                    $query = "SELECT * FROM `by_subjects` WHERE `link ID` ='$ap'";
                                     $result = mysqli_query($GLOBALS['link'], $query) or die(mysqli_error($link));
                                     for ($data = []; $row = mysqli_fetch_assoc($result); $data[] = $row); $result = ''; 
                                     foreach ($data as $elem) { 
                                         $nu=$elem['Teacher'];
                                         $sub=$elem['Subject'];
                                         if ($nu==$User_ID){
-                                            $query = "SELECT * FROM subject_list WHERE ID='$sub'";
+                                            $query = "SELECT * FROM `subject_list` WHERE `Subject ID` ='$sub'";
                                             $result = mysqli_query($GLOBALS['link'], $query) or die(mysqli_error($link));
                                             for ($dat = []; $row = mysqli_fetch_assoc($result); $dat[] = $row); $result = ''; 
                                                 foreach ($dat as $ele) {
-                                                        $res2 .= '<option value="'. $ele['subject'] .'|'. $ele['semester'] .'">'. $ele['subject'] .'</option>'; 
+                                                        $res2 .= '<option value="'. $ele['Subject ID'] .'|'. $ele['semester'] .'">'. $ele['subject'] .'</option>'; 
                                                 } 
                                         }
                                     } 
@@ -372,7 +402,7 @@ if($ch==false ){
                 <select id="select-a9f1" name="Name" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-white u-input-2">
                   <?php
                     $fir=(int)$fir;
-                      $query = "SELECT * FROM users WHERE Group_n=(SELECT Group_n FROM groups WHERE ID='$fir')";
+                      $query = "SELECT * FROM users WHERE Group_n=(SELECT Group_n FROM `groups` WHERE `Groups ID` ='$fir')";
                       $result = mysqli_query($GLOBALS['link'], $query) or die(mysqli_error($link));
                       for ($dat = []; $row = mysqli_fetch_assoc($result); $dat[] = $row); $result = ''; 
                       foreach ($dat as $ele) {
@@ -400,7 +430,7 @@ if($ch==false ){
             </div>
             <div class="u-form-date u-form-group u-form-group-4">
               <label for="date-a7d1" class="u-form-control-hidden u-label"></label>
-              <input type="date" placeholder="2021-12-01" id="date-a7d1" name="date" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-white u-input-4" required="">
+              <input type="date" placeholder="2021-12-01" value="2021-12-22" id="date-a7d1" name="date" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-white u-input-4" required="">
             </div>
             <div class="u-form-group u-form-submit u-form-group-5">
               <a href="#" class="u-btn u-btn-submit u-button-style">Добавить<br>
@@ -490,7 +520,7 @@ if($ch==false ){
                       <div class="u-form-select-wrapper">
                         <select id="select-0352" name="select" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-white u-input-1">
                           <?php
-                            $query = "SELECT * FROM groups WHERE ID>0";
+                            $query = "SELECT * FROM `groups` WHERE `Groups ID` >0";
                             $result = mysqli_query($GLOBALS['link'], $query) or die(mysqli_error($link));
                             for ($data = []; $row = mysqli_fetch_assoc($result); $data[] = $row); $result = ''; 
                             $num=1;
