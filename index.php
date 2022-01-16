@@ -184,8 +184,15 @@ echo "<script>window.location.href='./index.php'</script>";
             <ul class="u-nav u-unstyled u-nav-1"><li class="u-nav-item"><a class="u-button-style u-nav-link u-text-active-palette-1-base u-text-hover-palette-2-base" href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" style="padding: 10px 20px;">Главная</a>
 </li><li class="u-nav-item"><a class="u-button-style u-nav-link u-text-active-palette-1-base u-text-hover-palette-2-base u-dialog-link" href="#sec-784b" style="padding: 10px 20px;">Авторизация</a>
 </li>
-<li class="u-nav-item"><a class="u-button-style u-nav-link u-text-active-palette-1-base u-text-hover-palette-2-base u-dialog-link" href="http://localhost/STASS/admin.php" style="padding: 10px 20px;">Админ панель</a>
+ <?php
+    if($_SESSION['level'] == 2){
+    ?>
+<li class="u-nav-item"><a class="u-button-style u-nav-link u-text-active-palette-1-base u-text-hover-palette-2-base u-dialog-link" onclick="window.location.href = 'http://localhost/STASS/admin.php';" href="http://localhost/STASS/admin.php" style="padding: 10px 20px;">Админ панель</a>
 </li>
+ <?php
+    }
+    ?>
+
 </ul>
           </div>
           <div class="u-custom-menu u-nav-container-collapse">
@@ -237,7 +244,7 @@ echo "<script>window.location.href='./index.php'</script>";
               </div>
               <div class="u-container-style u-layout-cell u-size-43 u-layout-cell-2">
                 <div class="u-container-layout u-container-layout-4">
-                <h1 class="u-custom-font u-font-roboto-slab u-text u-text-default u-text-2">Электрическая зачётка</h1>
+                <h1 class="u-custom-font u-font-roboto-slab u-text u-text-default u-text-2">Электроная зачётка</h1>
                   <div class="u-container-style u-expanded-width u-gradient u-group u-radius-15 u-shape-round u-group-3">
                     <div class="u-container-layout u-container-layout-5">
                       <img class="u-image u-image-default u-image-2" src="images/7-78606_book-clipart-black-and-white-png-books-black.png" alt="" data-image-width="860" data-image-height="808">
