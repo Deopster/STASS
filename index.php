@@ -185,11 +185,13 @@ echo "<script>window.location.href='./index.php'</script>";
 </li><li class="u-nav-item"><a class="u-button-style u-nav-link u-text-active-palette-1-base u-text-hover-palette-2-base u-dialog-link" href="#sec-784b" style="padding: 10px 20px;">Авторизация</a>
 </li>
  <?php
+ if (isset($_SESSION['level'])) {
     if($_SESSION['level'] == 2){
     ?>
 <li class="u-nav-item"><a class="u-button-style u-nav-link u-text-active-palette-1-base u-text-hover-palette-2-base u-dialog-link" onclick="window.location.href = 'http://localhost/STASS/admin.php';" href="http://localhost/STASS/admin.php" style="padding: 10px 20px;">Админ панель</a>
 </li>
  <?php
+	}
     }
     ?>
 
